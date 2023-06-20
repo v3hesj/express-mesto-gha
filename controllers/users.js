@@ -32,7 +32,8 @@ module.exports.createUser = (req, res) => {
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, {
-    new: true
+    new: true,
+    runValidators: true
   })
     .then((user) => (user ? res.status(200).send({ data: user }) : res.status(404).send({ message: 'Пользователь по указанному _id не найден' })))
     .catch((err) => ((err.name === 'ValidationError') ? res.status(400).send({ message: 'Ошибка валидации' }) : res.status(500).send({ message: 'Произошла ошибка' })));
@@ -41,7 +42,8 @@ module.exports.updateUser = (req, res, next) => {
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, {
-    new: true
+    new: true,
+    runValidators: true
   })
     .then((user) => (user ? res.status(200).send({ data: user }) : res.status(404).send({ message: 'Пользователь по указанному _id не найден' })))
     .catch((err) => ((err.name === 'ValidationError') ? res.status(400).send({ message: 'Ошибка валидации' }) : res.status(500).send({ message: 'Произошла ошибка' })));

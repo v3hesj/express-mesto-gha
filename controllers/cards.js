@@ -40,7 +40,7 @@ module.exports.likeCard = (req, res, next) => {
   )
     .then((selectedCard) =>
       (selectedCard ? res.status(200).send({ data: selectedCard }) : res.status(404).send({ message: 'Передан несуществующий _id карточки' })))
-    .catch((err) => ((err.name === 'ValidationError') ? res.status(400).send({ message: 'Переданы некорректные данные для постановки/снятии лайка' }) : res.status(500).send({ message: 'Произошла ошибка' })));
+    .catch((err) => ((err  instanceof CastError) ? res.status(400).send({ message: 'Переданы некорректные данные для постановки/снятии лайка' }) : res.status(500).send({ message: 'Произошла ошибка' })));
 };
 
 module.exports.removeLikeCard = (req, res, next) => {
@@ -51,5 +51,5 @@ module.exports.removeLikeCard = (req, res, next) => {
   )
   .then((selectedCard) =>
      (selectedCard ? res.status(200).send({ data: selectedCard }) : res.status(404).send({ message: 'Передан несуществующий _id карточки' })))
-  .catch((err) => ((err.name === 'ValidationError') ? res.status(400).send({ message: 'Переданы некорректные данные для постановки/снятии лайка' }) : res.status(500).send({ message: 'Произошла ошибка' })));
+  .catch((err) => ((err instanceof CastError) ? res.status(400).send({ message: 'Переданы некорректные данные для постановки/снятии лайка' }) : res.status(500).send({ message: 'Произошла ошибка' })));
 };

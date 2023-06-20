@@ -1,4 +1,5 @@
 const express = require('express');
+express.json()
 const mongoose = require('mongoose');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
@@ -10,9 +11,6 @@ const app = express();
 mongoose.connect('mongodb://0.0.0.0:27017/mestodb', {
   useNewUrlParser: true
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   req.user = {
