@@ -1,11 +1,11 @@
-const ObjectId = require('mongoose').Types.ObjectId;
-const { CodeSuccess, CodeError } = require('../constants');
+const { ObjectId } = require('mongoose').Types.ObjectId;
+const { CodeSuccess, CodeError } = require('../utils/constants');
 const User = require('../models/user');
 
 module.exports.getAllUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(CodeSuccess.OK).send({ data: users }))
-    .catch((err) => res.status(CodeError.SERVER_ERROR).send({ message: 'Произошла ошибка' }));
+    .catch(() => res.status(CodeError.SERVER_ERROR).send({ message: 'Произошла ошибка' }));
 };
 
 module.exports.findUser = (req, res) => {

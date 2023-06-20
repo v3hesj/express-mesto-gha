@@ -1,7 +1,7 @@
-const ObjectId = require('mongoose').Types.ObjectId;
+const { ObjectId } = require('mongoose').Types.ObjectId;
 
-const Card = require('../models/card.js');
-const { CodeSuccess, CodeError } = require('../constants');
+const Card = require('../models/card');
+const { CodeSuccess, CodeError } = require('../utils/constants');
 
 module.exports.getAllCards = (req, res) => {
   Card.find({})
