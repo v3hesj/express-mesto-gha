@@ -10,6 +10,5 @@ const CodeSuccess = {
 };
 
 module.exports = {
-  CodeError,
   CodeSuccess,
 };
