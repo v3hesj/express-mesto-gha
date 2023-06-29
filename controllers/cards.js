@@ -30,13 +30,13 @@ module.exports.deleteCard = (req, res, next) => {
   //   res.status(CodeError.BAD_REQUEST).send({ message: 'Передан невалидный id' });
   //   return;
   // }
-  Card.findById(req.params.id)
-    .orFail(new NotFoundError('Карточка с указанным _id не найдена'))
+  Card.findById(req.params.cardId)
+    .orFail(new NotFoundError('Карточка с указанным id не найдена'))
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
         throw new ForbiddenError('Невозможно удалить чужую карточку');
       }
-      return Card.findByIdAndRemove(req.params.id);
+      return Card.findByIdAndRemove(req.params.cardId);
     })
     .then((card) => res.status(CodeSuccess.OK).send({ card }))
     .catch((err) => {
@@ -51,10 +51,10 @@ module.exports.deleteCard = (req, res, next) => {
 module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $addToSet: { likes: req.user._id } },
+    { $addToSet: { likes: req.user.cardId } },
     { new: true },
   )
-    .orFail(new NotFoundError('Карточка с указанным _id не найдена'))
+    .orFail(new NotFoundError('Карточка с указанным id не найдена'))
     .then((selectedCard) => res.status(CodeSuccess.OK).send(selectedCard))
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -68,10 +68,10 @@ module.exports.likeCard = (req, res, next) => {
 module.exports.removeLikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $pull: { likes: req.user._id } },
+    { $pull: { likes: req.user.cardId } },
     { new: true },
   )
-    .orFail(new NotFoundError('Карточка с указанным _id не найдена'))
+    .orFail(new NotFoundError('Карточка с указанным id не найдена'))
     .then((selectedCard) => res.status(CodeSuccess.OK).send(selectedCard))
     .catch((err) => {
       if (err.name === 'CastError') {
